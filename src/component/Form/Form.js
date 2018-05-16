@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './form.css'
+import './form.css';
+import axios from 'axios';
 
 export default class Form extends Component {
     constructor(){
@@ -11,6 +12,16 @@ export default class Form extends Component {
             bckgrndimg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQOyYpYBhnNhfU5ONu6wXoQO3m6gDsbtVRICthpUJ5sp5XOnzt'
         }
     }
+    
+    add(){
+        let that = this
+        let obj = {img:this.state.img, productName:this.state.productName, price: this.state.price}
+        axios.post('http://localhost:3001/api/product', obj).then(res=>{
+            console.log(that.props)
+            that.props.refresh()
+        }).catch(err=>console.log(err))
+    }
+
     reset(){
         this.setState({
             img: '',
@@ -33,7 +44,7 @@ export default class Form extends Component {
             <input type='text' onChange={(e)=> {this.setState({price: e.target.value})}} value={this.state.price}></input>
             <div className='form_button_box'>
                 <button onClick={()=>{this.reset()}}>Cancel</button>
-                <button>Add to Inventory</button>
+                <button onClick={()=>{this.add()}}>Add to Inventory</button>
             </div>
             </div>
         )

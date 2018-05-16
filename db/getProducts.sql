@@ -1,1 +1,1 @@
-select * from happyguy
+select * from inventory
